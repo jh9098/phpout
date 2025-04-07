@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>PHPSESSID 확인</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+    code { background: #eee; padding: 0.3em; }
+    button { margin-top: 1em; padding: 0.5em 1em; }
+  </style>
+</head>
+<body>
+  <h2>🔑 PHPSESSID 추출기</h2>
+  <p>이 페이지는 현재 브라우저에서 로그인된 PHPSESSID 값을 추출합니다.</p>
+
+  <p><strong>PHPSESSID:</strong> <code id="sessid">불러오는 중...</code></p>
+  <button onclick="copyToClipboard()">복사</button>
+
+  <script>
+    function getPHPSessid() {
+      const cookies = document.cookie.split(";").map(c => c.trim());
+      const sess = cookies.find(c => c.startsWith("PHPSESSID="));
+      return sess ? sess.split("=")[1] : null;
+    }
+
+    function copyToClipboard() {
+      const sess = document.getElementById("sessid").textContent;
+      navigator.clipboard.writeText(sess).then(() => {
+        alert("복사 완료!");
+      });
+    }
+
+    document.getElementById("sessid").textContent = getPHPSessid() || "없음 (로그인 필요)";
+  </script>
+</body>
+</html>
